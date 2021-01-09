@@ -24,8 +24,36 @@ bot
   })
   .on('login', async user => {
     console.log(`user: ${JSON.stringify(user)}`)
+    //const contact = await bot.Contact.find({name: 'Bakugan yoyo'});
+    //contact.say("Hello yoyo");
+    const room = await bot.Room.find({topic: 'Crypto test'});
+    room.say("Hello room");
   })
-  .on('message', async message => {
-    console.log(`message: ${JSON.stringify(message)}`)
+  .on('message', async msg => {
+    console.log(`message: ${JSON.stringify(msg)}`)
+      const contact = msg.from()
+      console.log("The message is from ", contact);
+      const text = msg.text()
+      const room = msg.room()
+      if (room) {
+        const topic = await room.topic()
+        console.log(`Room: ${topic} Contact: ${contact.name()} Text: ${text}`)
+      } else {
+        console.log(`Contact: ${contact.name()} Text: ${text}`)
+      }
+
   })
   .start()
+
+//const foo = async () => {
+//const bot = new Wechaty({
+//  puppet: 'wechaty-puppet-hostie',
+//  puppetOptions: {
+//    token,
+//  }
+//});
+//await bot.start();
+//await bot.say('hello!');
+//};
+//
+//foo();
