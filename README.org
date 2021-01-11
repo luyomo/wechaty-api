@@ -1,0 +1,9 @@
+* Installation
+#+BEGIN_SRC
+➜  wechaty-api git:(master) ✗ git clone git@github.com:luyomo/wechaty-api.git
+➜  wechaty-api git:(master) ✗ node --version
+v14.15.4
+➜  wechaty-api git:(master) ✗ npm install
+➜  wechaty-api git:(master) ✗ export PATH=$(pwd)/node_modules/.bin:$PATH
+➜  wechaty-api git:(master) ✗ WECHATY_TOKEN=token ts-node index.ts
+#+END_SRC
