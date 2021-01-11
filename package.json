@@ -1,8 +1,8 @@
 {
-  "name": "wechat02",
+  "name": "wechaty-api",
   "version": "1.0.0",
   "description": "",
-  "main": "test01.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "koa-bodyparser": "^3.2.0",
+    "koa2": "^2.0.0-alpha.7",
     "wechaty": "^0.50.7"
   },
   "devDependencies": {
