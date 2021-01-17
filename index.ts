@@ -55,15 +55,15 @@ app.use(async ctx => {
   if ( ctx.method === 'POST' ) {
       console.log("The url is ", ctx.url.split('/'));
       if (ctx.url.split('/').length != 3){
-        ctx.body = 'Invalid URL: (/room/roomName or /contact/contactName)';
+          ctx.body = 'Invalid URL: (/room/roomName or /contact/contactName or /group/groupName)';
         ctx.status = 500;
         return;
       }
       var [_, __msgType, __dest] = ctx.url.split('/');
       console.log("The message type is ", __msgType);
       console.log("The target is ", __dest);
-      if ( ! ["room", "contact"].includes(__msgType)  ){
-        ctx.body = 'Invalid URL: (/room/roomName or /contact/contactName)';
+      if ( ! ["room", "contact", "group"].includes(__msgType)  ){
+          ctx.body = 'Invalid URL: (/room/roomName or /contact/contactName or /group/groupName)';
         ctx.status = 500;
         return;
       }
@@ -90,6 +90,19 @@ app.use(async ctx => {
         }
         contact.say(ctx.request.body.data);
         ctx.body = 'Sent the message to ' + __dest;
+      }
+
+      if(__msgType == "group"){
+        const room = await bot.Room.find({topic: "数字货币实时新闻群"});
+        console.log('The room name is ', room);
+        if (room == null){
+          ctx.body = 'Invalid room name (' + __dest + ')';
+          ctx.status = 500;
+          return;
+        }
+        room.say(ctx.request.body.data);
+        ctx.body = 'Sent the message to ' + __dest;
+
       }
   }
 });
