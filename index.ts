@@ -2,7 +2,18 @@ import { Wechaty } from 'wechaty'
 import { ScanStatus } from 'wechaty-puppet'
 var qrcodeTerminal = require('qrcode-terminal');
 
+const fs = require('fs')
 const bodyParser = require('koa-bodyparser');
+const YAML = require('yaml')
+
+const file = fs.readFileSync('etc/roomNameMapping.yaml', 'utf8')
+var __roomMapping = YAML.parse(file);
+
+if (__roomMapping["roomMapping"] == null){
+    console.log("Please provide proper room mapping config file");
+    process.exit(2);
+}
+__roomMapping = __roomMapping["roomMapping"];
 
 if(process.env.WECHATY_TOKEN == null ){
     console.log("Please input the token for login");
@@ -91,18 +102,23 @@ app.use(async ctx => {
       }
 
       if(__msgType == "group"){
-        const room = await bot.Room.find({topic: "数字货币实时新闻群"});
-        console.log('The room name is ', room);
-        if (room == null){
-          ctx.body = 'Invalid room name (' + __dest + ')';
-          ctx.status = 500;
-          return;
+        if(__roomMapping[__dest] == null){
+          console.log("The group name is not available in the config file");
+          process.exit(3);
+        }else{
+          const room = await bot.Room.find({topic: __roomMapping[__dest]});
+          console.log('The room name is ', room);
+          if (room == null){
+            ctx.body = 'Invalid room name (' + __dest + ')';
+            ctx.status = 500;
+            return;
+          }
+          room.say(ctx.request.body.data);
+          ctx.body = 'Sent the message to ' + __dest;
         }
-        room.say(ctx.request.body.data);
-        ctx.body = 'Sent the message to ' + __dest;
 
       }
   }
 });
 
-app.listen(3000);
+app.listen(3000, '0.0.0.0');
