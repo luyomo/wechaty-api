@@ -4,8 +4,6 @@ var qrcodeTerminal = require('qrcode-terminal');
 
 const bodyParser = require('koa-bodyparser');
 
-console.log("The wechaty token is ", process.env.WECHATY_TOKEN);
-
 if(process.env.WECHATY_TOKEN == null ){
     console.log("Please input the token for login");
     process.exit(1);
@@ -26,7 +24,7 @@ bot
     }
   })
   .on('login', async user => {
-    console.log(`user: ${JSON.stringify(user)}`)
+    console.log(`${user['payload']['name']} was logined`)
   })
   .on('message', async msg => {
     console.log(`message: ${JSON.stringify(msg)}`)
