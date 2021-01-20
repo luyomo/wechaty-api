@@ -1,0 +1,16 @@
+[Unit]
+Description=Translator
+Documentation=https://example.com
+After=network.target
+ 
+[Service]
+Environment=NODE_PORT=3000
+Environment="WECHATY_TOKEN=puppet_wxwork_e55d45d53adf4491"
+Environment="PATH=/home/pi/.local/bin:/home/pi/.autojump/bin:/opt/node-v14.15.4-linux-arm64/bin:/opt/zsh/5.8/bin:/opt/emacs/27.1/bin:/opt/tmux/3.1/bin:/opt/nginx/1.18.0/sbin:/home/pi/.autojump/bin/autojump:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"
+Type=simple
+User=pi
+ExecStart=/opt/yomo-wechat-api/node_modules/.bin/ts-node /opt/yomo-wechat-api/index.ts
+Restart=on-faiure
+
+[Install]
+WantedBy=multi-user.target
