@@ -6,7 +6,7 @@ const fs = require('fs')
 const bodyParser = require('koa-bodyparser');
 const YAML = require('yaml')
 
-const file = fs.readFileSync('etc/roomNameMapping.yaml', 'utf8')
+const file = fs.readFileSync('/opt/yomo-wechat-api/etc/roomNameMapping.yaml', 'utf8')
 var __roomMapping = YAML.parse(file);
 
 if (__roomMapping["roomMapping"] == null){
@@ -34,8 +34,11 @@ bot
       qrcodeTerminal.generate(qrcode)
     }
   })
-  .on('login', async user => {
-    console.log(`${user['payload']['name']} was logined`)
+//  .on('logout', async user => {
+//    console.log(`${user['payload']['name']} was logined`)
+//  })
+.on('login', async user => {
+   console.log(`${user['payload']['name']} was logined`)
   })
   .on('message', async msg => {
     console.log(`message: ${JSON.stringify(msg)}`)
